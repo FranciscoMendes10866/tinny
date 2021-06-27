@@ -30,6 +30,17 @@ test('FAIL TO FIND USER', async () => {
   }
 })
 
+test('FIND USER', async () => {
+  const res = await axios.get('http://localhost:3333')
+  instance(res.data.users, Array)
+  const user = res.data.users[0]
+  instance(user, Object)
+  const userId = res.data.users[0]._id
+  const { data, status } = await axios.get(`http://localhost:3333/${userId}`)
+  equal(status, 200)
+  equal(data.user, user)
+})
+
 test('UPDATE USER', async () => {
   const res = await axios.get('http://localhost:3333')
   const obj = res.data.users[0]
@@ -41,6 +52,7 @@ test('UPDATE USER', async () => {
 
 test('DELETE USER', async () => {
   const res = await axios.get('http://localhost:3333')
+  instance(res.data.users, Array)
   const userId = res.data.users[0]._id
   const { data, status } = await axios.delete(`http://localhost:3333/${userId}`)
   equal(data.user._id, userId)
