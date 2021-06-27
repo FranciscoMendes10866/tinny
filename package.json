@@ -33,7 +33,7 @@
     "dotenv": "^10.0.0",
     "esno": "^0.7.3",
     "jsonwebtoken": "^8.5.1",
-    "milliparsec": "^2.1.1",
+    "milliparsec": "2.2",
     "monk": "^7.3.4",
     "node-cache": "^5.1.2",
     "yup": "^0.32.9"

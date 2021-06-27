@@ -39,7 +39,7 @@ test('UPDATE USER', async () => {
   equal(status, 200)
 })
 
-test.skip('DELETE USER', async () => {
+test('DELETE USER', async () => {
   const res = await axios.get('http://localhost:3333')
   const userId = res.data.users[0]._id
   const { data, status } = await axios.delete(`http://localhost:3333/${userId}`)
