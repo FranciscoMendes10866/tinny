@@ -6,16 +6,9 @@ import { Token } from './guard.dto'
 import JwtStrategy from '../jwt/index'
 import { Cache } from '../../config/index'
 
-const { JWT_SECRET_KEY, NODE_ENV } = process.env
+const { JWT_SECRET_KEY } = process.env
 
 class AuthGuard extends JwtStrategy {
-    private signCookie = (token: string, res: Response): void => {
-      res.cookie('node_key', token, {
-        httpOnly: true,
-        secure: NODE_ENV === 'production'
-      })
-    }
-
     private getPayload = (token: string): Token => {
       return verify(token, JWT_SECRET_KEY) as Token
     }

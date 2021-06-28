@@ -9,7 +9,7 @@ const { JWT_SECRET_KEY } = process.env
 
 export default class JwtStrategy {
     private generateKey = () => {
-      return randomBytes(12).toString('hex')
+      return randomBytes(24).toString('hex')
     }
 
     public generateToken = (payload: JWT): string => {
