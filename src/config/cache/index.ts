@@ -17,6 +17,10 @@ class CacheManager {
     public remove = (key: string): number => {
       return this.client.del(key)
     }
+
+    public stats = () => {
+      return this.client.getStats()
+    }
 }
 
 export default new CacheManager()
