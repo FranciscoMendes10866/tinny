@@ -35,4 +35,12 @@ test('Logout (without cookie) - should get an error', async () => {
   }
 })
 
+test('Protected route (without cookie) - should get an error', async () => {
+  try {
+    await axios.get('http://localhost:3333/protected', { headers: { Cookie: ['node_key=""'] } })
+  } catch ({ response: res }) {
+    equal(res.status, 403)
+  }
+})
+
 test.run()
