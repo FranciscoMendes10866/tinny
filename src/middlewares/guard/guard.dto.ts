@@ -3,8 +3,3 @@ export interface Token {
   iat: number
   exp: number
 }
-
-export interface getPayloadTypes {
-  isExpired: boolean
-  payload: Token
-}
