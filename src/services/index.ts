@@ -39,7 +39,7 @@ class BaseController {
     }
 
     public protected = async (req: Request, res: Response): Promise<Response> => {
-      return res.json({ message: 'can access' })
+      return res.json({ message: 'Has access.' })
     }
 
     public logout = async (req: Request, res: Response): Promise<Response> => {

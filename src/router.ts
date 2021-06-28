@@ -9,8 +9,8 @@ const router = (app: App) => {
    * Auth Routes
    */
   app.get('/login', BaseController.login)
-  app.get('/test-content', AuthGuard.guard, BaseController.protected)
-  app.get('/test-logout', AuthGuard.guard, BaseController.logout)
+  app.get('/protected', AuthGuard.guard, BaseController.protected)
+  app.get('/logout', AuthGuard.guard, BaseController.logout)
   /**
    * Base Routes
    */
