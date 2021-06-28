@@ -1,6 +1,7 @@
 import { Request, Response } from '@tinyhttp/app'
 
-import { Database } from '../config/index'
+import { Database, Cache } from '../config/index'
+import { AuthGuard } from '../middlewares/index'
 
 class BaseController {
     public index = async (req: Request, res: Response): Promise<Response> => {
@@ -29,6 +30,21 @@ class BaseController {
       const { id } = req.params
       const user = await Database.patchOne(id, req.body)
       return res.status(200).json({ user })
+    }
+
+    public login = (req: Request, res: Response): Response => {
+      const data = { _id: 'qwerty' }
+      const key = AuthGuard.generateToken(data)
+      return res.cookie('node_key', key, { httpOnly: true, secure: false }).sendStatus(200)
+    }
+
+    public protected = async (req: Request, res: Response): Promise<Response> => {
+      return res.json({ message: 'can access' })
+    }
+
+    public logout = async (req: Request, res: Response): Promise<Response> => {
+      Cache.remove(req.cookies.node_key)
+      return res.clearCookie('node_key').sendStatus(200)
     }
 }
 
