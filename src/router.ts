@@ -12,19 +12,24 @@ const router = (app: App) => {
   app.get('/stats', (req: Request, res: Response) => {
     return res.json(Cache.stats())
   })
+
   app.get('/test-login', (req: Request, res: Response) => {
     const data = {
       _id: 'qwerty'
     }
-    const token = AuthGuard.generateAccessToken(data)
-    AuthGuard.generateRefreshToken(data)
-    return res.cookie('access_token', token, { httpOnly: true, secure: false }).sendStatus(200)
+    const key = AuthGuard.generateToken(data)
+    return res.cookie('node_key', key, { httpOnly: true, secure: false }).sendStatus(200)
+  })
+  app.get('/test-content', AuthGuard.guard, (req: Request, res: Response) => {
+    // @ts-ignore
+    return res.json({ message: 'can access' })
   })
   app.get('/test-logout', AuthGuard.guard, (req: Request, res: Response) => {
     // @ts-ignore
-    Cache.remove(req.tokenId)
-    return res.clearCookie('access_token').sendStatus(200)
+    Cache.remove(req.cookies.node_key)
+    return res.clearCookie('node_key').sendStatus(200)
   })
+
   app.get('/:id', validate(findSchema), BaseController.findOne)
   app.delete('/:id', validate(findSchema), BaseController.destroy)
   app.put('/:id', validate(findSchema), BaseController.patch)

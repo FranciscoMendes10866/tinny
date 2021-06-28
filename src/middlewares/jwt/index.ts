@@ -1,5 +1,6 @@
 import { sign } from 'jsonwebtoken'
 import { boomify } from '@hapi/boom'
+import { randomBytes } from 'crypto'
 
 import { JWT } from './jwt.dto'
 import { Cache } from '../../config/index'
@@ -7,22 +8,16 @@ import { Cache } from '../../config/index'
 const { JWT_SECRET_KEY } = process.env
 
 export default class JwtStrategy {
-    public generateAccessToken = (payload: JWT): string => {
-      try {
-        return sign(payload, JWT_SECRET_KEY, {
-          expiresIn: '15min'
-        })
-      } catch (err) {
-        throw boomify(err)
-      }
+    private generateKey = () => {
+      return randomBytes(12).toString('hex')
     }
 
-    public generateRefreshToken = (payload: JWT): void => {
+    public generateToken = (payload: JWT): string => {
       try {
-        const token = sign(payload, JWT_SECRET_KEY, {
-          expiresIn: '1y'
-        })
-        Cache.set(payload._id, token, 31_556_952)
+        const token = sign(payload, JWT_SECRET_KEY)
+        const key = this.generateKey()
+        Cache.set(key, token, 604800)
+        return key
       } catch (err) {
         throw boomify(err)
       }
